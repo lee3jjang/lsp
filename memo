@@ -1,0 +1,49 @@
+/////////////////
+// connection을 만들고
+// onInitialize 핸들러를 만드는데
+// object 를 하나 반환함 => 어따 쓰는지는 잘 모르겠음
+const connection = createConnection(ProposedFeatures.all);
+connection.onInitialize(() => {
+  return {
+    capabilities: {
+      TextDocumentSync: TextDocumentSyncKind.Incremental
+    }
+  }
+})
+
+// documents 인스턴스를 만드는데
+// onDidChangeContent (내용이 바뀌었을 때) 핸들러를 만듬
+// change가 매개변수로 들어오는데
+// document - url 이 있다
+// connection - window - showInformationMessage : 정보 메시지를 보여줌?
+// documents 이벤트 핸들러가 있음
+// 이걸 다 등록하는 거 같음
+// connection을 listen
+// connection 자체도 listen
+const documents = new TextDocuments(TextDocument)
+documents.onDidChangeContent(({document: {url}})=> {
+  connection.window.showInformationMessage(`onDidChangeContent: ${url}`)
+})
+documents.listen(connection);
+connection.listen();
+
+// completion
+// hover
+// signature help
+// declaration
+// definition
+// type definition
+// implementation
+// references
+// document highlight
+// document symbol
+// code action
+// code lens
+// document link
+// color
+// document formatting
+// document range formatting
+// document on type formatting
+// rename
+// workspace
+// file operations
